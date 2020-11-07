@@ -3,56 +3,82 @@
     <div class="details-container">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/living">{{product.pname}}</a></el-breadcrumb-item>
-        <el-breadcrumb-item>{{product.p_title}}</el-breadcrumb-item>
+        <el-breadcrumb-item
+          ><a href="/living">{{ product.pname }}</a></el-breadcrumb-item
+        >
+        <el-breadcrumb-item>{{ product.p_title }}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="details_item">
         <el-row :gutter="20">
           <el-col :span="12">
             <img
               class="image"
-              :src="require(`../../public/img/`+product.p_img+`.webp`)"
+              :src="require(`../../public/img/` + product.p_img + `.webp`)"
               v-if="product.p_img != null"
             />
           </el-col>
           <el-col :span="10">
-            <p>{{product.p_title}}</p>
-            <p class="item_price">¥{{parseInt(product.p_price).toFixed(2)}}</p>
-            <p>{{product.p_desc}}</p>
-            <p>{{product.p_desc}}</p>
-            <p>{{product.p_desc}}</p>
+            <p>{{ product.p_title }}</p>
+            <p class="item_price">
+              ¥{{ parseInt(product.p_price).toFixed(2) }}
+            </p>
+            <p>{{ product.p_desc }}</p>
+            <p>{{ product.p_desc }}</p>
+            <p>{{ product.p_desc }}</p>
             <div class="item_color">
               <span>颜色：</span>
               <div>
-                <img :src="require(`../../public/img/${product.p_img}.webp`)" v-if="product.p_img != null"/>
+                <img
+                  :src="require(`../../public/img/${product.p_img}.webp`)"
+                  v-if="product.p_img != null"
+                />
                 <span>灰色</span>
               </div>
               <div>
-                <img :src="require(`../../public/img/${product.p_img}.webp`)" v-if="product.p_img != null"/>
+                <img
+                  :src="require(`../../public/img/${product.p_img}.webp`)"
+                  v-if="product.p_img != null"
+                />
                 <span>蓝色</span>
               </div>
               <div>
-                <img :src="require(`../../public/img/${product.p_img}.webp`)" v-if="product.p_img != null"/>
+                <img
+                  :src="require(`../../public/img/${product.p_img}.webp`)"
+                  v-if="product.p_img != null"
+                />
                 <span>绿色</span>
               </div>
             </div>
             <div class="item_cart">
-              <button>加入购物车</button>
-              <button>-</button>
-              <input type="text" :value="count" />
-              <button>+</button>
+              <router-link
+                :to="{
+                  path: '/cart',
+                  query: {
+                    id: $route.query.id,
+                    count: this.count
+                  },
+                }"
+              >
+              <!-- :to="{ path: '/details', query: { id: v.p_id } }" -->
+                加入购物车
+              </router-link>
+              <button @click="reduce_item" :disabled="count == 1">-</button>
+              <input type="text" v-model="count" />
+              <button @click="add_item">+</button>
             </div>
             <div>
               <span>商品编号：</span>
-              <span>{{product.p_number}}</span>
+              <span>{{ product.p_number }}</span>
             </div>
             <div>
               <span>分类：</span>
-              <span>{{product.pname}}</span>
+              <span>{{ product.pname }}</span>
             </div>
             <div>
               <span>总价：</span>
-              <span class="item_price">¥{{(count*product.p_price).toFixed(2)}}</span>
+              <span class="item_price"
+                >¥{{ (count * product.p_price).toFixed(2) }}</span
+              >
             </div>
           </el-col>
         </el-row>
@@ -107,10 +133,12 @@
   border: 1px solid lightGray;
   margin: 0 auto;
 }
-.item_cart > button:first-child {
+.item_cart a {
+  text-decoration: none;
   padding: 0.5rem 3.5rem;
   border: 0;
   background: orange;
+  border: 1px solid orange;
   margin-right: 1.2rem;
   border-radius: 0.2rem;
   color: #fff;
@@ -144,27 +172,33 @@
   margin-top: -1rem;
   font-size: 1.2rem;
 }
-.item_tabs{
+.item_tabs {
   margin: 0 10rem 0 2.5rem;
 }
 </style>
 
 <script>
 export default {
-  data(){
+  data() {
     return {
-      activeName:'first',
-      product:{},
-      count:1
+      activeName: "first",
+      product: {},
+      count: 1,
+    };
+  },
+  methods: {
+    add_item() {
+      this.count++;
+    },
+    reduce_item() {
+      this.count--;
     }
   },
-  mounted(){
-    let id=this.$route.query.id;
-    this.pid=id;
-    this.axios.get('/list',{params:{id:this.pid}}).then((res)=>{
-      this.product=res.data.result[0];
-      // console.log(this.product);
-    })
-  }
-}
+  mounted() {
+    let id = this.$route.query.id;
+    this.axios.get("/list", { params: { id: id } }).then((res) => {
+      this.product = res.data.result[0];
+    });
+  },
+};
 </script>

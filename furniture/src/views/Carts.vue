@@ -1,56 +1,45 @@
 <template>
   <div class="carts">
-    <div v-for="(v, i) in sum" :key="i" class="carts_items">
+    <div class="carts_items" v-for="(v, i) of cart[0]" :key="i">
       <div>
-        <p v-if="(cart = '')">购物车为空</p>
+        <p v-if="cart.length == 0">购物车为空</p>
         <div class="carts_details" v-else>
           <div class="catrs_cheaked">
-            <!-- <input type="checkbox" name="shopping" id="first" /> -->
-            <el-checkbox-group
-              v-model="checkshop"
-            >
-              <!-- @change="handleCheckedCitiesChange" -->
-              <el-checkbox></el-checkbox>
-            </el-checkbox-group>
+             <input type="checkbox" name="shopping" id="first" />
           </div>
-          <div class="catrs_img">
-            <img src="../../public/img/living/living_item_2.webp" />
+          <div class="catrs_img" v-if="v.p_img != null">
+            <img :src="require(`../../public/img/${v.p_img}.webp`)" />
           </div>
           <div class="carts_title">
-            <span>桌子</span>
+            <span>{{ v.p_title }}</span>
           </div>
-          <div class="carts_price">
-            <!-- ¥{{price}} -->
-            ¥{{ parseInt(price).toFixed(2) }}
-          </div>
+          <div class="carts_price">¥{{ parseInt(v.p_price).toFixed(2) }}</div>
           <div class="carts_counter">
             <button @click="decrease">-</button>
             <input type="text" v-model="count" />
             <button @click="count++">+</button>
           </div>
-          <div class="carts_totol">¥{{ (price * count).toFixed(2) }}</div>
+          <div class="carts_totol">¥{{ (v.p_price * count).toFixed(2) }}</div>
           <div class="carts_delete">
             <button>删除</button>
           </div>
         </div>
       </div>
+      <div class="carts_footer">
+        <div>
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
+            >全选</el-checkbox
+          >
+          <button>删除</button>
+        </div>
+        <div>
+          <span>总计：{{ ((v.p_price) * count).toFixed(2) }}</span>
+          <el-button type="warning">结算</el-button>
+        </div>
+      </div>
     </div>
     <div class="carts_togo">
       <button @click="go">去首页逛逛</button>
-    </div>
-    <div class="carts_footer">
-      <div>
-        <el-checkbox
-          :indeterminate="isIndeterminate"
-          v-model="checkAll"
-          >全选</el-checkbox
-        >
-        <button>删除</button>
-      </div>
-      <div>
-        <span>总计：{{ (price * count).toFixed(2) }}</span>
-        <el-button type="warning">结算</el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -66,6 +55,10 @@
   background-color: #fff;
   border-radius: 0.2rem;
   margin: 0.5rem 0;
+}
+.carts > .carts_items > div > p:first-child {
+  padding: 1rem;
+  border-radius: 0.2rem;
 }
 .carts_details {
   display: flex;
@@ -108,35 +101,35 @@
   padding: 0 0.5rem;
 }
 .carts_togo {
-  text-align: right;
+  text-align: center;
   margin-right: 0.5rem;
   outline: none;
 }
 .carts_togo button {
   border: 0.5px solid #ccc;
-  font-size: 0.8rem;
+  font-size: 1rem;
   border-radius: 0.2rem;
   color: #fff;
   font-weight: 600;
   background: orange;
   padding: 0.5rem 0.8rem;
 }
-.carts_footer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #eee;
-    border-radius: .2rem;
+.carts_footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #eee;
+  border-radius: 0.2rem;
 }
-.carts_footer>div:first-child>button{
-    border: .5px solid #ccc;
-    margin-left: 1rem;
-    border-radius: .2rem;
-    color: #aaa;
+.carts_footer > div:first-child > button {
+  border: 0.5px solid #ccc;
+  margin-left: 1rem;
+  border-radius: 0.2rem;
+  color: #aaa;
 }
-.carts_footer>div:nth-child(2)>span{
-    margin-right: 1.5rem;
+.carts_footer > div:nth-child(2) > span {
+  margin-right: 1.5rem;
 }
 </style>
 
@@ -144,13 +137,11 @@
 export default {
   data() {
     return {
-      price: 258,
+      cart: [],
       count: 1,
-      sum: 3,
-      cart: "",
-      checkshop:false,
-      checkAll:false,
-      isIndeterminate:false
+      checkshop: false,
+      checkAll: false,
+      isIndeterminate: false,
     };
   },
   methods: {
@@ -161,12 +152,19 @@ export default {
       if (this.count > 1) {
         this.count--;
       }
-    },
-    sumPrice() {
-      if (sum != "") {
-        this.price * this.count;
-      }
     }
+  },
+  mounted() {
+    let id = this.$route.query.id;
+    let count = this.$route.query.count;
+
+    // console.log(id);
+    this.axios.get("/cart", { params: { id: id } }).then((res) => {
+      let cart_item = res.data.result;
+      this.cart.push(cart_item);
+    });
+    // console.log(typeof(this.cart));
+    console.log(this.cart);
   },
 };
 </script>

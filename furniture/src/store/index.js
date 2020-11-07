@@ -5,6 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    cart:[],
+    isLogined:localStorage.getItem('isLogin')?localStorage.getItem('isLogin'):0
   },
   mutations: {
   },

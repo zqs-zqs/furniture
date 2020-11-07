@@ -22,6 +22,24 @@ app.use(bodyParse.urlencoded({
     extended:false
 }))
 
+// 用户登录验证
+app.post('/login',(req,res)=>{
+    let uname=req.body.uname;
+    let password=req.body.password;
+    let sql='SELECT uid,uname,password,u_nickname,u_phone,u_addr,u_sex FROM user WHERE uname=? AND password=?';
+    console.log(uname);
+    console.log(password);
+    pool.query(sql,[uname,password],(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        if(result.length==1){
+            res.send({message:'登录成功',code:1})
+        }else{
+            res.send({message:'登录失败',code:0})
+        }
+    })
+})
+
 // 请求导航栏数据
 app.get('/top',(req,res)=>{
     let sql='SELECT pid,pname,sub_id FROM category';
@@ -90,6 +108,17 @@ app.get('/list',(req,res)=>{
     pool.query(sql,[id],(err,result)=>{
         if(err) throw err;
         // console.log(result);
+        res.send({message:'成功',code:1,result:result})
+    })
+})
+
+app.get('/cart',(req,res)=>{
+    let id=req.query.id;
+    let sql='SELECT p_title,p_price,p_img FROM products WHERE p_id=?';
+
+    pool.query(sql,[id],(err,result)=>{
+        if(err) throw err;
+        console.log(result);
         res.send({message:'成功',code:1,result:result})
     })
 })

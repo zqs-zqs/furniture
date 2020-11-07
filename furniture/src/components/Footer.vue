@@ -35,37 +35,6 @@
                     </li>
                 <li><img src="../../public/img/logo.webp" alt=""></li>
             </ul>
-            <!-- <el-menu>
-                <el-menu-item>
-                    <template slot="title">关于我们</template>
-                    <el-menu-item>品牌介绍</el-menu-item>
-                    <el-menu-item>加盟方式</el-menu-item>
-                    <el-menu-item>联系我们</el-menu-item>
-                    </el-menu-item>
-                <el-menu-item>
-                    <template slot="title">在线服务</template>
-                    <el-menu-item>品牌介绍</el-menu-item>
-                    <el-menu-item>加盟方式</el-menu-item>
-                    <el-menu-item>联系我们</el-menu-item>
-                    </el-menu-item>
-                <el-menu-item>
-                    <template slot="title">支付方式</template>
-                    <el-menu-item>品牌介绍</el-menu-item>
-                    <el-menu-item>加盟方式</el-menu-item>
-                    <el-menu-item>联系我们</el-menu-item>
-                    </el-menu-item>
-                <el-menu-item>
-                    <template slot="title">关注我们</template>
-                    <el-menu-item>
-                        <span>电话联系</span>
-                    </el-menu-item>
-                    <el-menu-item>
-                        <span>微信官方</span>
-                    </el-menu-item>
-                    <el-menu-item>联系我们</el-menu-item>
-                    </el-menu-item>
-                <el-menu-item><img src="../../public/img/logo.webp" alt=""></el-menu-item>
-            </el-menu> -->
             <div class="last">
                 <span>Copyright © 2010-2017 家居商城. All rights reserved.</span>
             </div>
