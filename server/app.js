@@ -33,7 +33,7 @@ app.post('/login',(req,res)=>{
         if(err) throw err;
         console.log(result);
         if(result.length==1){
-            res.send({message:'登录成功',code:1})
+            res.send({message:'登录成功',code:1,result:result})
         }else{
             res.send({message:'登录失败',code:0})
         }
@@ -49,6 +49,7 @@ app.get('/top',(req,res)=>{
         res.send({message:'成功',code:1,res:result})
     })
 })
+
 
 app.get('/',(req,res)=>{
     let sql='SELECT p_id,p_title,p_price,p_img,p_desc,pname,p_number,p_class FROM products';
@@ -112,13 +113,27 @@ app.get('/list',(req,res)=>{
     })
 })
 
-app.get('/cart',(req,res)=>{
-    let id=req.query.id;
+app.post('/cart',(req,res)=>{
+    let id=req.body.id;
+    let count=req.body.count;
     let sql='SELECT p_title,p_price,p_img FROM products WHERE p_id=?';
-
     pool.query(sql,[id],(err,result)=>{
         if(err) throw err;
-        console.log(result);
+        // console.log(result);
+        if(result.length){
+            let sql='INSERT INTO carts(c_id,p_id,c_count) VALUES(NULL,?,?)';
+            pool.query(sql,[id,count],(req,results)=>{
+                if(err) throw err;
+                console.log(results);
+                if(result.affectedRows!=0){
+                    res.send({code:1})
+                    return
+                }else{
+                    res.send({code:0})
+                    return
+                }
+            })
+        }
         res.send({message:'成功',code:1,result:result})
     })
 })

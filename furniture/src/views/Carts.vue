@@ -30,7 +30,7 @@
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
             >全选</el-checkbox
           >
-          <button>删除</button>
+          <button @click="to_delete">删除</button>
         </div>
         <div>
           <span>总计：{{ ((v.p_price) * count).toFixed(2) }}</span>
@@ -152,16 +152,16 @@ export default {
       if (this.count > 1) {
         this.count--;
       }
+    },
+    to_delete(){
+      
     }
   },
   mounted() {
-    let id = this.$route.query.id;
-    let count = this.$route.query.count;
-
-    // console.log(id);
-    this.axios.get("/cart", { params: { id: id } }).then((res) => {
-      let cart_item = res.data.result;
-      this.cart.push(cart_item);
+    this.axios.post("/cart").then((res) => {
+      console.log(res.data);
+      this.cart=res.data;
+      // localStorage.setItem(this.$store.state.cart,cart_item)
     });
     // console.log(typeof(this.cart));
     console.log(this.cart);

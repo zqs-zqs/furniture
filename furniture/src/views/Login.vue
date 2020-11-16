@@ -57,10 +57,13 @@ export default {
     },
     handle() {
       if (this.checkUname() && this.checkPassword()) {
-          console.log(this.uname,this.password);
+          // console.log(this.uname,this.password);
         this.axios.post("/login", 'uname='+this.uname+'&password='+this.password)
           .then((res) => {
             if(res.data.code==1){
+              this.$store.commit("Logined", res.data.result);
+              localStorage.setItem("isLogin", "1");
+              this.$router.push('/')
                 this.$message({
                     message:'登录成功',
                     type:'success'

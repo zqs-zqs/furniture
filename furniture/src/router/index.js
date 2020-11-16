@@ -12,10 +12,15 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Details from '../views/Details.vue'
 import Carts from '../views/Carts.vue'
+import MyCart from '../views/MyCart.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path:'/myCart',
+    component:MyCart
+  },
   {
     path:'/cart',
     component:Carts

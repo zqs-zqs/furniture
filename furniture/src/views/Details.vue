@@ -189,9 +189,33 @@ export default {
   methods: {
     add_item() {
       this.count++;
+      this.count=this.count;
     },
     reduce_item() {
       this.count--;
+      this.count=this.count;
+    },
+    add_toCart(){
+    count=this.count;
+    let obj={
+      id:id,
+      count:count
+    }
+    console.log(id,count);
+    console.log(obj);
+    this.axios.post("/cart", this.qs.stringify(obj)).then((res) => {
+      if(res.code==1){
+        this.$message({
+          message:'添加成功',
+          type:'success'
+        })
+      }
+      // let cart_item = res.data.result;
+      // this.cart.push(cart_item);
+      // localStorage.setItem(this.$store.state.cart,cart_item)
+    });
+    // console.log(typeof(this.cart));
+    // console.log(this.cart);
     }
   },
   mounted() {
@@ -199,6 +223,7 @@ export default {
     this.axios.get("/list", { params: { id: id } }).then((res) => {
       this.product = res.data.result[0];
     });
+
   },
 };
 </script>
