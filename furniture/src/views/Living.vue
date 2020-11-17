@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="nav">
-      <el-breadcrumb separator="/" class="nav-start">
+      <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/living' }">客厅</el-breadcrumb-item>
+        <el-breadcrumb-item>客厅</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="living">
@@ -31,13 +31,9 @@
           <el-menu :router="true">
             <el-menu-item @click="showAll">全部</el-menu-item>
             <el-menu-item @click="showPart">客厅</el-menu-item>
-            <!-- <el-menu-item index="/bed">卧室</el-menu-item>
-            <el-menu-item index="/dining">餐厅</el-menu-item>
-            <el-menu-item index="cook">厨房</el-menu-item>
-            <el-menu-item index="/bath">浴室</el-menu-item> -->
           </el-menu>
         </div>
-        <div class="living-list" v-if="isSelected='living'">
+        <div class="living-list" v-if="(isSelected = 'living')">
           <div class="list" v-for="(v, i) of products" :key="i">
             <router-link :to="{ path: '/details', query: { id: v.p_id } }">
               <img
@@ -50,7 +46,7 @@
           </div>
         </div>
 
-        <div class="living-list" v-if="isSelected='all'">
+        <div class="living-list" v-if="(isSelected = 'all')">
           <div class="list" v-for="(v, i) of productsAll" :key="i">
             <router-link :to="{ path: '/details', query: { id: v.p_id } }">
               <img
@@ -73,10 +69,10 @@
 }
 .nav {
   float: left;
-  z-index: -2;
+  z-index: 1;
   position: absolute;
   top: 6rem;
-  left: 2%;
+  left: 8%;
 }
 .living img {
   z-index: -2;
@@ -173,25 +169,19 @@
 export default {
   data() {
     return {
-      isSelected:'living',
+      isSelected: "living",
       products: [],
       productsAll: [],
     };
   },
   methods: {
     showAll() {
-      this.isSelected=='all';
-      this.axios.get("/").then((res) => {
-        this.productsAll = res.data.result;
-      });
+      this.isSelected == "all";
+      this.$router.push("/");
     },
     showPart() {
-      this.isSelected=='living';
-      this.axios.get("/living").then((res) => {
-        // console.log(res);
-        this.products = res.data.result;
-        // console.log(this.products);
-      });
+      this.isSelected == "living";
+      this.$router.push("/living");
     },
   },
   mounted() {

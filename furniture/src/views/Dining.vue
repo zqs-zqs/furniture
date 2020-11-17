@@ -29,12 +29,8 @@
         </div>
         <div class="dining-index-list-item">
           <el-menu>
-            <el-menu-item index="1">全部</el-menu-item>
-            <el-menu-item index="2">客厅</el-menu-item>
-            <el-menu-item index="3">卧室</el-menu-item>
-            <el-menu-item index="4">餐厅</el-menu-item>
-            <el-menu-item index="5">厨房</el-menu-item>
-            <el-menu-item index="6">浴室</el-menu-item>
+            <el-menu-item @click="showAll">全部</el-menu-item>
+            <el-menu-item @click="showPart">餐厅</el-menu-item>
           </el-menu>
         </div>
         <div class="dining-list">
@@ -56,10 +52,10 @@
 }
 .dining {
   float: left;
-  z-index: -2;
+  z-index: 1;
   position: absolute;
   top: 6rem;
-  left: 2%;
+  left: 8%;
 }
 .dining-swiper img {
   z-index: -2;
@@ -156,7 +152,18 @@ export default {
   data() {
     return {
       products: [],
+      isSelected: "dining"
     };
+  },
+  methods:{
+    showAll() {
+      this.isSelected == "all";
+      this.$router.push("/");
+    },
+    showPart() {
+      this.isSelected == "dining";
+      this.$router.push("/dining");
+    },
   },
   mounted() {
     this.axios.get("/dining").then((res) => {

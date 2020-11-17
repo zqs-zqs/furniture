@@ -3,7 +3,7 @@
     <div class="bath">
       <el-breadcrumb separator="/" class="nav-start">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/bath' }">浴室</el-breadcrumb-item>
+        <el-breadcrumb-item>浴室</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="bath-swiper">
@@ -29,12 +29,8 @@
         </div>
         <div class="bath-index-list-item">
           <el-menu :router="true">
-            <el-menu-item index="/">全部</el-menu-item>
-            <el-menu-item index="/living">客厅</el-menu-item>
-            <el-menu-item index="/bed">卧室</el-menu-item>
-            <el-menu-item index="/dining">餐厅</el-menu-item>
-            <el-menu-item index="cook">厨房</el-menu-item>
-            <el-menu-item index="/bath">浴室</el-menu-item>
+            <el-menu-item @click="showAll">全部</el-menu-item>
+            <el-menu-item @click="showPart">浴室</el-menu-item>
           </el-menu>
         </div>
         <div class="bath-list">
@@ -56,10 +52,10 @@
 }
 .bath {
   float: left;
-  z-index: -2;
+  z-index: 1;
   position: absolute;
   top: 6rem;
-  left: 2%;
+  left: 8%;
 }
 .bath-swiper img {
   z-index: -2;
@@ -156,8 +152,19 @@
 export default {
   data(){
     return {
-      products:[]
+      products:[],
+      isSelected: "bath",
     }
+  },
+  methods:{
+    showAll() {
+      this.isSelected == "all";
+      this.$router.push("/");
+    },
+    showPart() {
+      this.isSelected == "bath";
+      this.$router.push("/bath");
+    },
   },
   mounted(){
     this.axios.get('/bath').then((res)=>{

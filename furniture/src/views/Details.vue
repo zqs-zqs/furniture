@@ -50,18 +50,9 @@
               </div>
             </div>
             <div class="item_cart">
-              <router-link
-                :to="{
-                  path: '/cart',
-                  query: {
-                    id: $route.query.id,
-                    count: this.count
-                  },
-                }"
-              >
-              <!-- :to="{ path: '/details', query: { id: v.p_id } }" -->
+              <el-button @click="add_toCart" type="warning">
                 加入购物车
-              </router-link>
+              </el-button>
               <button @click="reduce_item" :disabled="count == 1">-</button>
               <input type="text" v-model="count" />
               <button @click="add_item">+</button>
@@ -149,6 +140,12 @@
   border-radius: 0.2rem;
   color: #333;
 }
+.item_cart>button:first-child{
+  padding: .6rem .7rem;
+  color: #fff;
+  font-size: 1rem;
+  margin-right: .2rem;
+}
 .item_cart > input {
   text-align: center;
   width: 15%;
@@ -189,33 +186,30 @@ export default {
   methods: {
     add_item() {
       this.count++;
-      this.count=this.count;
     },
     reduce_item() {
       this.count--;
-      this.count=this.count;
     },
     add_toCart(){
-    count=this.count;
+    let id = this.$route.query.id;
     let obj={
       id:id,
-      count:count
+      count:this.count,
+      img:this.product.p_img,
+      title:this.product.p_title,
+      price:this.product.p_price
     }
-    console.log(id,count);
+    console.log(id,this.count);
     console.log(obj);
     this.axios.post("/cart", this.qs.stringify(obj)).then((res) => {
-      if(res.code==1){
+      console.log(res);
+      if(res.data.code==1){
         this.$message({
           message:'添加成功',
           type:'success'
         })
       }
-      // let cart_item = res.data.result;
-      // this.cart.push(cart_item);
-      // localStorage.setItem(this.$store.state.cart,cart_item)
     });
-    // console.log(typeof(this.cart));
-    // console.log(this.cart);
     }
   },
   mounted() {

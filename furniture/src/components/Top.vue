@@ -23,7 +23,7 @@
           <el-button @click="loginOut" v-else>退出</el-button>
         </el-col>
         <el-col>
-          <el-button @click="myCart" icon="el-icon-shopping-cart-full">购物车</el-button>
+          <el-button @click="myCart" :disabled="this.$store.state.isLogined==1 && this.$route.path=='/cart'" icon="el-icon-shopping-cart-full">购物车</el-button>
           <el-button type="text" @click="open" v-if="this.$store.state.isLogined==0"></el-button>
         </el-col>
       </div>
@@ -160,7 +160,7 @@ export default {
           this.open()
         }
       }else{
-        this.$router.push('/myCart')
+        this.$router.push('/cart')
       }
     },
     open(){

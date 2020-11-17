@@ -1,46 +1,45 @@
 <template>
   <div class="carts">
-    <div class="carts_items" v-for="(v, i) of cart[0]" :key="i">
-      <div>
-        <p v-if="cart.length == 0">购物车为空</p>
-        <div class="carts_details" v-else>
+    <div class="carts_items" v-for="(v, i) of carts" :key="i">
+      <p v-if="carts.length == 0">购物车为空</p>
+      <div v-else>
+        <div class="carts_details">
           <div class="catrs_cheaked">
              <input type="checkbox" name="shopping" id="first" />
           </div>
-          <div class="catrs_img" v-if="v.p_img != null">
-            <img :src="require(`../../public/img/${v.p_img}.webp`)" />
+          <div class="catrs_img">
+            <img :src="require(`../../public/img/${v.p_img}.webp`)" v-if="v.p_img != null"/>
           </div>
           <div class="carts_title">
             <span>{{ v.p_title }}</span>
           </div>
           <div class="carts_price">¥{{ parseInt(v.p_price).toFixed(2) }}</div>
           <div class="carts_counter">
-            <button @click="decrease">-</button>
-            <input type="text" v-model="count" />
-            <button @click="count++">+</button>
+            <button @click="v.c_count--" :disabled="v.c_count==1">-</button>
+            <input type="text" v-model="v.c_count" />
+            <button @click="v.c_count++">+</button>
           </div>
-          <div class="carts_totol">¥{{ (v.p_price * count).toFixed(2) }}</div>
+          <div class="carts_totol">¥{{ (v.p_price * v.c_count).toFixed(2) }}</div>
           <div class="carts_delete">
-            <button>删除</button>
+            <button @click="to_delete(i)">删除</button>
           </div>
         </div>
       </div>
+    </div>
       <div class="carts_footer">
         <div>
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-            >全选</el-checkbox
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll">全选</el-checkbox
           >
-          <button @click="to_delete">删除</button>
+          <button>删除</button>
         </div>
         <div>
-          <span>总计：{{ ((v.p_price) * count).toFixed(2) }}</span>
+          <span>总计：¥{{totalPrice}}</span>
           <el-button type="warning">结算</el-button>
         </div>
       </div>
-    </div>
-    <div class="carts_togo">
+   <div class="carts_togo">
       <button @click="go">去首页逛逛</button>
-    </div>
+    </div> 
   </div>
 </template>
 
@@ -137,14 +136,28 @@
 export default {
   data() {
     return {
-      cart: [],
+      carts: [],
       count: 1,
+      id:1,
       checkshop: false,
       checkAll: false,
       isIndeterminate: false,
     };
   },
+  computed:{
+      totalPrice() {
+         var total =0;
+         for(var i = 0;i<this.carts.length;i++){
+            var item = this.carts[i];
+            total +=item.p_price*item.c_count;
+         }
+         return total.toString().replace(/\B(?=(\d{3})+$)/g,',');
+      }
+   },
   methods: {
+    ischeck(){
+
+    },
     go() {
       this.$router.push("/");
     },
@@ -153,18 +166,15 @@ export default {
         this.count--;
       }
     },
-    to_delete(){
-      
-    }
+    to_delete(i) {
+      this.carts.splice(i,1)
+    },
   },
   mounted() {
-    this.axios.post("/cart").then((res) => {
-      console.log(res.data);
-      this.cart=res.data;
-      // localStorage.setItem(this.$store.state.cart,cart_item)
+    this.axios.get("/carts").then((res) => {
+      console.log(res.data.result);
+      this.carts = res.data.result;
     });
-    // console.log(typeof(this.cart));
-    console.log(this.cart);
   },
 };
 </script>
