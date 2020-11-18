@@ -42,7 +42,11 @@ export default {
       if (unameRegExp.test(this.uname)) {
         return true;
       } else {
-        this.$message.error("格式错误，请输入8~12位数字或字母或数字和字母组合");
+        this.$message({
+                  message:'格式错误，请输入6~9位数字或字母或数字和字母组合',
+                  type:'error',
+                  duration:800
+                  })
         return false;
       }
     },
@@ -51,7 +55,11 @@ export default {
       if (passwordRegExp.test(this.password)) {
         return true;
       } else {
-        this.$message.error("格式错误，请输入6~9位数字或字母或数字和字母组合")
+        this.$message({
+                  message:'格式错误，请输入6~9位数字或字母或数字和字母组合',
+                  type:'error',
+                  duration:800
+                  })
         return false;
       }
     },
@@ -66,10 +74,15 @@ export default {
               this.$router.push('/')
                 this.$message({
                     message:'登录成功',
-                    type:'success'
+                    type:'success',
+                    duration:800
                 })
             }else{
-                this.$message.error('用户名或密码错误')
+                this.$message({
+                  message:'用户名或密码错误',
+                  type:'error',
+                  duration:800
+                  })
             }
           });
       }

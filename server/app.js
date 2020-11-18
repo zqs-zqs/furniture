@@ -178,6 +178,19 @@ app.post("/cart", (req, res) => {
   });
 });
 
+app.get('/clear',(req,res)=>{
+  let sql='TRUNCATE TABLE carts';
+  pool.query(sql,(err,result)=>{
+    if(err) throw err;
+    console.log(result);
+    if(result.fieldCount==0){
+      res.send({code:1})
+    }else{
+      res.send({code:0})
+    }
+  })
+})
+
 app.listen(3000, () => {
   console.log("serve is runing");
 });

@@ -199,17 +199,17 @@ export default {
       title:this.product.p_title,
       price:this.product.p_price
     }
-    console.log(id,this.count);
-    console.log(obj);
     this.axios.post("/cart", this.qs.stringify(obj)).then((res) => {
-      console.log(res);
+      // console.log(res);
       if(res.data.code==1){
         this.$message({
           message:'添加成功',
-          type:'success'
+          type:'success',
+          duration:800
         })
       }
     });
+    this.count=1;
     }
   },
   mounted() {

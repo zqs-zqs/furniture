@@ -22,7 +22,7 @@
             </el-breadcrumb>
           </div>
           <div class="my-inp">
-            <el-input placeholder="请输入商品名称">
+            <el-input placeholder="请输入商品名称" v-model="sth" @blur="handle">
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
@@ -154,6 +154,7 @@ export default {
     return {
       products:[],
       isSelected: "bath",
+      sth:''
     }
   },
   methods:{
@@ -165,6 +166,16 @@ export default {
       this.isSelected == "bath";
       this.$router.push("/bath");
     },
+    handle(){
+        this.$message({
+          message:'该商品尚未上架，敬请期待',
+          type:'success',
+          duration:1000,
+          center:true,
+          offset:260
+        })
+      this.sth='';
+    }
   },
   mounted(){
     this.axios.get('/bath').then((res)=>{

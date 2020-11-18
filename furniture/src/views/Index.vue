@@ -35,7 +35,7 @@
 
 <style scoped>
 .index {
-  padding-top: 8rem;
+  padding-top: 6rem;
   background: #f2f2f2;
 }
 .index > .items {
@@ -45,30 +45,36 @@
   color: coral;
   padding: 1rem 0;
 }
-.index > .items_show {
-  margin: 1rem 2rem 1rem 2rem;
+.item_show{
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  margin: 1rem 2rem 0;
+  background: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .5rem;
+  color: #666666;
+  border-radius: .5rem;
 }
-.index > .items_show > .list {
-  width: 25%;
-  margin: 1rem 0;
+.item_show>.list{
+  width: 20%;
+  padding: 1.5rem;
 }
-.index > .items_show  > .list > p,
-.index > .items_show  > .list > div {
-  font-size: 14px;
-  padding: 0.2rem 0;
-  color: #a3a3a3;
-}
-.index > .items_show > .list > a > img {
+.item_show>.list>a>img{
   padding: 0.5rem 0;
   width: 100%;
   transition: 0.3s;
 }
-
-.index > .items_show  > .list > a > img:hover {
+.item_show>.list>a>img:hover{
   transform: scale(1.1);
+}
+.item_show>.list>p{
+  margin: .6rem auto .3rem;
+}
+.item_show>.list>div{
+  color: coral;
+  font-size: 1rem;
+  font-weight: 600;
 }
 </style>
 
@@ -81,7 +87,7 @@ export default {
   },
   mounted() {
     this.axios.get("/").then((res) => {
-      console.log(res);
+      // console.log(res);
       this.products = res.data.result;
       // console.log(this.products);
     });

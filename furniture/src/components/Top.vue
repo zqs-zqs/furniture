@@ -46,10 +46,10 @@
         <el-menu-item index="/bath">浴室</el-menu-item>
         <el-submenu index="6">
           <template slot="title">关于</template>
-          <el-menu-item index="6-1">常见问题</el-menu-item>
-          <el-menu-item index="6-2">支付方式</el-menu-item>
-          <el-menu-item index="6-3">加盟方式</el-menu-item>
-          <el-menu-item index="6-4">联系我们</el-menu-item>
+          <el-menu-item index="/">常见问题</el-menu-item>
+          <el-menu-item index="/">支付方式</el-menu-item>
+          <el-menu-item index="/">加盟方式</el-menu-item>
+          <el-menu-item index="/">联系我们</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
@@ -173,7 +173,8 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: '已取消登录',
+            duration:800
           });          
         });
     }
